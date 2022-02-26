@@ -69,6 +69,12 @@ public class TransportPlanService {
 		
 		return revenue * (100 - floorEntry.getValue()) / 100;
 	}
+	
+//	public void deleteAllRepositories() {
+//		transportPlanRepository.deleteAll();
+//		sectionRepository.deleteAll();
+//		milestoneRepository.deleteAll();
+//	}
 
 //	@Transactional
 //	public Address save(Address address) {

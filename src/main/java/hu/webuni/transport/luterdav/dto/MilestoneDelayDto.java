@@ -6,7 +6,11 @@ public class MilestoneDelayDto {
 	private long milestoneId;
 	private long delay;
 	
-
+	public MilestoneDelayDto(long milestoneId, long delay) {
+		super();
+		this.milestoneId = milestoneId;
+		this.delay = delay;
+	}
 	public long getMilestoneId() {
 		return milestoneId;
 	}
