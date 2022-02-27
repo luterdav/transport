@@ -2,7 +2,6 @@ package hu.webuni.transport.luterdav.dto;
 
 import java.util.List;
 
-import hu.webuni.transport.luterdav.model.Section;
 
 public class TransportPlanDto {
 	

@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,8 +18,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
 import hu.webuni.transport.luterdav.config.TransportConfigProperties;
+import hu.webuni.transport.luterdav.dto.LoginDto;
 import hu.webuni.transport.luterdav.dto.MilestoneDelayDto;
-import hu.webuni.transport.luterdav.dto.MilestoneDto;
 import hu.webuni.transport.luterdav.dto.SectionDto;
 import hu.webuni.transport.luterdav.dto.TransportPlanDto;
 import hu.webuni.transport.luterdav.model.Milestone;
@@ -50,22 +49,27 @@ public class TransportPlanServiceIT {
 	
 	@Autowired
 	TransportConfigProperties config;
-
+	
+	private String username = "Peter";
+	private String password = "1234";
+	private String jwt;
 
 	@BeforeEach
 	public void init() {
 		createDBData();
-	}
-	
-	public void initDB() {
-		deleteDB();
-		createDBData();
-	}
-	
-	public void deleteDB() {
-		sectionRepository.deleteAll();
-		milestoneRepository.deleteAll();
-		transportPlanRepository.deleteAll();
+		
+		LoginDto loginDto = new LoginDto();
+		loginDto.setUsername(username);
+		loginDto.setPassword(password);
+		jwt = webTestClient
+		.post()
+		.uri("/api/login")
+		.bodyValue(loginDto)
+		.exchange()
+		.expectBody(String.class)
+		.returnResult()
+		.getResponseBody();
+		
 	}
 	
 	public void createDBData() {
@@ -232,32 +236,17 @@ public class TransportPlanServiceIT {
 		return webTestClient
 				.post()
 				.uri(path)
-//				.headers(headers -> headers.setBasicAuth(username, pass))
-//				.headers(headers -> headers.setBearerAuth(jwt))
+				.headers(headers -> headers.setBearerAuth(jwt))
 				.bodyValue(milestoneDelayDto)
 				.exchange();
 	}
 
-//	
-//	private ResponseSpec modifyEmployee(EmployeeDto newEmployee) {
-//		String path = BASE_URI + "/" + newEmployee.getId();
-//		return webTestClient
-//				.put()
-//				.uri(path)
-////				.headers(headers -> headers.setBasicAuth(username, pass))
-////				.headers(headers -> headers.setBearerAuth(jwt))
-//				.bodyValue(newEmployee)
-//				.exchange();
-//	}
-//	
-//	
-//
+
 	private List<TransportPlanDto> getAllTransportPlans() {
 		List<TransportPlanDto> responseList = webTestClient
 				.get()
 				.uri(BASE_URI)
-//				.headers(headers -> headers.setBasicAuth(username, pass))
-//				.headers(headers -> headers.setBearerAuth(jwt))
+				.headers(headers -> headers.setBearerAuth(jwt))
 				.exchange()
 				.expectStatus()
 				.isOk()

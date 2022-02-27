@@ -24,10 +24,13 @@ public class TransportPlanService {
 
 	@Autowired
 	TransportPlanRepository transportPlanRepository;
+	
 	@Autowired
 	MilestoneRepository milestoneRepository;
+	
 	@Autowired
 	SectionRepository sectionRepository;
+	
 	@Autowired
 	TransportConfigProperties config;
 
@@ -70,31 +73,5 @@ public class TransportPlanService {
 		return revenue * (100 - floorEntry.getValue()) / 100;
 	}
 	
-//	public void deleteAllRepositories() {
-//		transportPlanRepository.deleteAll();
-//		sectionRepository.deleteAll();
-//		milestoneRepository.deleteAll();
-//	}
-
-//	@Transactional
-//	public Address save(Address address) {
-//		if (address.getId() != null)
-//			throw new IllegalArgumentException();
-//		return addressRepository.save(address);
-//	}
-
-//	@Transactional
-//	public Address update(Address newAddress, long id) {
-//		if (newAddress.getId() != null && newAddress.getId() != id)
-//			throw new IllegalArgumentException();
-//		addressRepository.findById(id).get();
-//		newAddress.setId(id);
-//		return addressRepository.save(newAddress);
-//	}
-//
-//	@Transactional
-//	public void delete(long id) {
-//		addressRepository.deleteById(id);
-//	}
 
 }
